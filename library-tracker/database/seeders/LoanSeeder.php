@@ -31,6 +31,7 @@ class LoanSeeder extends Seeder
                 'user_id'     => $faker->randomElement($user_ids),
                 'loaned_at'   => $loaned_at,
                 'returned_at' => $returned_at,
+                'due_at' => $loaned_at->addDays(15)
             ]);
         }
     }

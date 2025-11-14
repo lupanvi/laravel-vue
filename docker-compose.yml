@@ -1,8 +1,5 @@
 version: "3.9"
 
-networks:
-  library-network:
-
 services:
   app:
     build: library-tracker
@@ -43,7 +40,7 @@ services:
     ports:
       - 33075:3306
     volumes:
-      - ./.docker/mysql:/var/lib/mysql
+      - mysql_volume:/var/lib/mysql
     networks:
       - library-network
 
@@ -54,3 +51,9 @@ services:
       - 7050:6379
     networks:
       - library-network
+
+volumes:
+  mysql_volume:
+
+networks:
+  library-network:  

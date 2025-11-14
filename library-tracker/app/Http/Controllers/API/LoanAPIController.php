@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Loan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class LoanAPIController extends Controller
 {
@@ -56,5 +57,28 @@ class LoanAPIController extends Controller
         $loan->delete();
 
         return response()->noContent();
+    }
+
+    public function putExtend(Request $request, int $id)
+    {
+        $loan = Loan::find($id);
+        if (empty($loan)) {
+            throw new Exception('Could not find loan.');
+        }
+
+        if ($loan->due_at > now()){
+            throw new Exception('Loan already overdue');
+        }
+
+        $request->validate([
+            'additional_days' => 'numeric',
+        ]);        
+        
+        $loan->due_at = $loan->due_at->addDays((int) $request->additional_days);        
+
+        $loan->update();
+
+        return $loan;
+           
     }
 }

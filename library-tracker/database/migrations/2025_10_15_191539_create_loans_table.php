@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamp('loaned_at');
             $table->timestamp('returned_at')->nullable();
+            $table->timestamp('due_at')->nullable();
             $table->timestamps();
         });
     }
